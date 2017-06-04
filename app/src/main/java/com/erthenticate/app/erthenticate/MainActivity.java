@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void writeFile(String filename) {
         try {
-            File file = new File(MainActivity.this.getFilesDir(), filename);
+            File file = getInternalFile(filename);
 
             BufferedWriter bw = new BufferedWriter(new FileWriter(file));
 
@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String readFile(String filename) {
         try {
-            File file = new File(MainActivity.this.getFilesDir(), filename);
+            File file = getInternalFile(filename);
             BufferedReader reader = new BufferedReader(new FileReader(file));
             StringBuilder builder = new StringBuilder();
             String line = reader.readLine();
@@ -162,6 +162,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return "";
+    }
+
+    private File getInternalFile(String filename) {
+        return new File(MainActivity.this.getFilesDir(), filename);
     }
 
     private void showMessage(String msg) {
