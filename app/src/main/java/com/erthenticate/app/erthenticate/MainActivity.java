@@ -3,11 +3,9 @@ package com.erthenticate.app.erthenticate;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -15,11 +13,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private App app;
-    private GestureDetectorCompat mDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +35,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void recordEvent(MotionEvent event) {
+        Log.d("MOTION", event.toString());
 
+        Record record = new Record(
+                0, // Phone ID
+                1, // User ID
+                1, // Document ID
+                event.getEventTime(), // Timestamp
+                event.getAction(), // Touch action
+                getResources().getConfiguration().orientation, // Phone orientation
+                event.getX(), // X
+                event.getY(), // Y
+                event.getPressure(), // Pressure
+                event.getSize(), // Touch area
+                0.0 // Finger orientation
+        );
+
+        app.getRecordList().add(record);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (app.getState().getState() == State.STATE_RECORDING) {
-            this.mDetector.onTouchEvent(event);
             recordEvent(event);
         }
 
@@ -73,7 +91,12 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (app.getState().getState() == State.STATE_RECORDING) {
+                    String csvFilename = app.getName() + ".csv";
+                    writeFile(csvFilename);
+                    readFile(csvFilename);
+                    app.getState().setState(State.STATE_READY);
+                }
             }
         });
 
@@ -99,21 +122,46 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        // Init gesture listeners
-        mDetector = new GestureDetectorCompat(this, new CustomSimpleGestureListener());
     }
 
-    class CustomSimpleGestureListener extends GestureDetector.SimpleOnGestureListener {
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            app.setCounter(app.getCounter()+1);
+    private void writeFile(String filename) {
+        try {
+            File file = new File(MainActivity.this.getFilesDir(), filename);
 
-            showMessage("Fling Detected");
-            Log.d("MOTION", "FLING");
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
 
-            return super.onFling(e1, e2, velocityX, velocityY);
+            for (Record record : app.getRecordList()) {
+                bw.write(record + "");
+                bw.newLine();
+            }
+
+            bw.close();
+        } catch (IOException ex) {
+            Log.e("IO", ex.getMessage());
         }
+    }
+
+    private String readFile(String filename) {
+        try {
+            File file = new File(MainActivity.this.getFilesDir(), filename);
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            StringBuilder builder = new StringBuilder();
+            String line = reader.readLine();
+
+            while (line != null) {
+                Log.d("CSV", line);
+                builder.append(line);
+                line = reader.readLine();
+            }
+
+            reader.close();
+
+            return builder.toString();
+        } catch (IOException ex) {
+            Log.e("IO", ex.getMessage());
+        }
+
+        return "";
     }
 
     private void showMessage(String msg) {

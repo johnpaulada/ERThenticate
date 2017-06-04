@@ -4,7 +4,7 @@ public class State {
     public static final short STATE_READY = 0;
     public static final short STATE_RECORDING = 1;
 
-    private int state;
+    private short state;
 
     public State(short state) {
         this.state = state;
@@ -14,11 +14,11 @@ public class State {
         this.state = STATE_READY;
     }
 
-    public int getState() {
+    public short getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(short state) {
         this.state = state;
     }
 }

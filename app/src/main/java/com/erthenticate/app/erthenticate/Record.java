@@ -4,7 +4,7 @@ public class Record {
     private double phoneId;
     private double userId;
     private double documentId;
-    private double timestamp;
+    private long timestamp;
     private double action;
     private double phoneOrientation;
     private double x;
@@ -13,7 +13,7 @@ public class Record {
     private double area;
     private double fingerOrientation;
 
-    public Record(double phoneId, double userId, double documentId, double timestamp, double action, double phoneOrientation, double x, double y, double pressure, double area, double fingerOrientation) {
+    public Record(double phoneId, double userId, double documentId, long timestamp, double action, double phoneOrientation, double x, double y, double pressure, double area, double fingerOrientation) {
         this.phoneId = phoneId;
         this.userId = userId;
         this.documentId = documentId;
@@ -83,11 +83,11 @@ public class Record {
         this.documentId = documentId;
     }
 
-    public double getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(double timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
