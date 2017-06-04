@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="false"
+    android:clickable="false"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.erthenticate.app.erthenticate.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <RelativeLayout
+        android:layout_width="395dp"
+        android:layout_height="587dp"
+        tools:layout_editor_absoluteX="10dp"
+        tools:layout_editor_absoluteY="5dp">
+
+        <TextView
+            android:id="@+id/collectionTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentTop="true"
+            android:layout_margin="10dp"
+            android:text="Data Collection App"
+            android:textAppearance="@android:style/TextAppearance.Material.Title"
+            tools:text="Data Collection App" />
+
+        <TextView
+            android:id="@+id/inputPrompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="false"
+            android:layout_alignStart="@+id/collectionTitle"
+            android:layout_below="@+id/collectionTitle"
+            android:text="Please input your name below" />
+
+        <EditText
+            android:id="@+id/nameInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/inputPrompt"
+            android:layout_below="@+id/inputPrompt"
+            android:autoText="false"
+            android:editable="false"
+            android:ems="10"
+            android:hint="Name"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/submitButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/nameInput"
+            android:layout_below="@+id/nameInput"
+            android:onClick="onButtonClick"
+            android:text="Submit" />
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>
