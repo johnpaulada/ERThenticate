@@ -23,10 +23,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".ETService"
-            android:exported="false"/>
-
     </application>
 
 </manifest>
