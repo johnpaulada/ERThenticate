@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                     readFile(csvFilename);
                     app.getState().setState(State.STATE_READY);
 
-                    Snackbar.make(findViewById(android.R.id.content), "Stopped recording.", Snackbar.LENGTH_SHORT)
+                    Snackbar.make(findViewById(android.R.id.content), "Stopped recording.", Snackbar.LENGTH_INDEFINITE)
                             .setAction("Verify", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
